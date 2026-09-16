@@ -212,7 +212,14 @@ class Simple_API_Content_Sync {
 
 		// Some APIs return an "items" key, others return the array directly.
 		$items = isset( $data['items'] ) ? $data['items'] : $data;
-
+		
+		if ( ! is_array( $items ) ) {
+			return new WP_Error(
+				'invalid_data',
+				'No content items were found.'
+			);
+		}
+		
 		set_transient(
 			'api_content_sync_data',
 			$items,
